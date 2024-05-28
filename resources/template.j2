@@ -1,0 +1,61 @@
+import torch.nn as nn      
+
+
+{% for group_name, layers in model.items() %}
+
+class {{group_name}} (nn.Module):
+    def __init__(self):
+
+        super().__init__(){{"\n"}}
+
+{%- for k, l in layers.items() if l.category not in ["Operator", "Container"] -%}
+
+        {{"\t"}}self.{{l.name}} = nn.{{l.type}}(
+
+        {%- for p in l.parameters if p.default==0 -%}
+
+        {{p.value}}{{ ", " if not loop.last else "" }}
+
+        {%- endfor -%}
+        {%- for p in l.parameters if p.default!=0 and p.default_value!=p.value -%}
+        , {{p.name}}={{p.value}}
+        {%- endfor -%})
+{% endfor %}
+
+    def forward(self, x):{{"\n"}}
+
+{%- for path in paths[group_name] -%}
+    {%- set outer_loop = loop.index-1 -%}
+    {%- for node in path -%}
+        {%- if loop.index-1==0 -%}    
+            {{"\t"}}out_{{outer_loop}} = self.{{model[group_name][node].name}}(x){{"\n"}}
+        {%- else -%} 
+            {{"\t"}}out_{{outer_loop}} = self.{{model[group_name][node].name}}(out_{{outer_loop}}){{"\n"}}
+        {%- endif -%}
+        {%- if model[group_name][node]["link_end"]|length > 1 -%}
+            {{"\t"}}res_{{model[group_name][node].name}} = out_{{ outer_loop.index }}{{"\n"}}
+        {%- endif -%}
+        {%- if model[group_name][node]["link_start"]|length > 1 -%}
+            {{"\t"}}out_{{outer_loop}} = out_{{outer_loop}} + res_{{model[group_name][node].name}}{{"\n"}}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endfor -%}
+
+    {{"\t"}}return 
+{%- for path in paths[group_name] -%}
+    {{ " " }} out_{{loop.index-1}}{{ ", " if not loop.last else "" }} 
+{%- endfor -%}
+
+{% endfor %}
+
+class final (nn.Module):
+    def __init__(self):
+{% for group_name, layers in model.items()%}
+        self.{{group_name}} = {{group_name}}
+{% endfor %} 
+
+    def forward(self, x):
+        out = 
+        return out
+
+

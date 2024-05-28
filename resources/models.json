@@ -1,0 +1,92 @@
+{
+    "torch.nn":
+    { 
+        "Linear":
+        [{
+            "type": "Linear",
+            "category": "Linear",
+            "parameters": 
+            [{
+                "name": "in_features",
+                "dtype": "int",
+                "description": "size of each input sample",
+                "value": "0"
+            },
+            {
+                "name": "out_features",
+                "dtype": "int",
+                "description": "size of each output sample",
+                "value": "0"
+            },
+            {
+                "name": "bias",
+                "dtype": "bool",
+                "description": "If set to False, the layer will not learn an additive bias. Default: True",
+                "value": "True"
+            }]
+
+        }],
+        
+        "Convolutional":
+        [{
+            "type": "Conv2d",
+            "category": "Convolutional",
+            "parameters":
+            [{
+                "name": "in_channels",
+                "dtype": "int",
+                "description": "Number of channels in the input image",
+                "value": "0"
+             },
+             {
+                "name": "out_channels",
+                "dtype": "int",
+                "description": "Number of channels produced by the convolution",
+                "value": "0"
+             },
+             {
+                "name": "kernel_size",
+                "dtype": "int or tuple",
+                "description": "Size of the convolving kernel",
+                "value": "0"
+             },
+             {
+                "name": "stride",
+                "dtype": "int or tuple, optional",
+                "description": "Stride of the convolution. Default: 1",
+                "value": "1"
+             },
+             {
+                "name": "padding",
+                "dtype": "int, tuple or str, optional",
+                "description": "Padding added to all four sides of the input. Default: 0",
+                "value": "0"
+             },
+             {
+                "name": "padding_mode",
+                "dtype": "str, optional",
+                "description": "'zeros', 'reflect', 'replicate' or 'circular'. Default: 'zeros'",
+                "value": "zero"
+             },
+             {
+                "name": "dilation",
+                "dtype": "int or tuple, optional",
+                "description": "Spacing between kernel elements. Default: 1",
+                "value": "1"
+             },
+             {
+                "name": "groups",
+                "dtype": "int, optional",
+                "description": "Number of blocked connections from input channels to output channels. Default: 1",
+                "value": "1"
+             },
+             {
+                "name": "bias",
+                "dtype": "bool, optional",
+                "description": "If True, adds a learnable bias to the output. Default: True",
+                "value": "True"
+             }]
+        }]
+    }      
+
+}
